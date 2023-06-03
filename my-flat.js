@@ -45,6 +45,8 @@ export function initFlatPolyphile() {
         /// используем рекурсию
         if (Array.isArray(currentElement) && depth > 0) {
           result.push(...flatten(currentElement, depth - 1));
+        } else {
+          result.push(currentElement);
         }
       }
 
