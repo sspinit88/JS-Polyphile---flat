@@ -24,9 +24,33 @@ export function initFlatPolyphile() {
     return;
   }
 
-  Array.prototype.myFlat = function (callback) {
-    const result = [];
+  Array.prototype.myFlat = function (depth = 1) {
+    /// проверка сущности
+    if (!Array.isArray(this)) {
+      throw new TypeError(
+        `Array.prototype.myFlat was called on wrong type ${typeof this}`
+      );
+    }
 
-    return result;
+    if (isNaN(depth) || depth <= 0) {
+      return this;
+    }
+
+    function flatten(arr, depth) {
+      const result = [];
+
+      for (let i = 0; i < arr.length; i++) {
+        const currentElement = arr[i];
+
+        /// используем рекурсию
+        if (Array.isArray(currentElement) && depth > 0) {
+          result.push(...flatten(currentElement, depth - 1));
+        }
+      }
+
+      return result;
+    }
+
+    return flatten(this, depth);
   };
 }
